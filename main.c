@@ -1,5 +1,6 @@
 
 #include "get_next_line.h"
+#include "main.h"
 
 void		ft_lstrev(t_list **alst)
 {
@@ -91,6 +92,8 @@ t_list *save_file(char *filename)
 	fd = open(filename, O_RDONLY);
 	while((r = read(fd, buff, 21)) >= 19)
 	{
+		if(!check_tetrims(buff) || !check_connections(buff))
+			return(0);
 		temp = ft_lstnew(buff, 21);
 		//printf("%s ", temp->content);
 		ft_lstadd(&new, temp);
