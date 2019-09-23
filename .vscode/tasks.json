@@ -53,6 +53,15 @@
 				"$gcc"
 			],
 			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "run",
+			"command": "${workspaceFolder}/a.outh",
+			"args": [
+				"${workspaceFolder}"
+			],
+			"group": "build"
 		}
 	]
 }
