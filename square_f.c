@@ -1,7 +1,10 @@
 
 
 #include "main.h"
-
+/*
+** Создает табличку заполненную точками
+**
+*/
 static char	**make_square_str(size_t size)
 {
 	char	**square;
@@ -24,7 +27,9 @@ static char	**make_square_str(size_t size)
 	}
 	return (square);
 }
-
+/*
+** Инициализирует нашу главную табличку, куда все и вмещается
+*/
 
 t_square	*ft_create_sq(size_t size)
 {
