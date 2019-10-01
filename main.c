@@ -1,116 +1,140 @@
 
 #include "get_next_line.h"
 #include "main.h"
-
-void		ft_lstrev(t_list **alst)
+/*
+**Создает указатель на точку с которой мы должны работать. Используется как курсор в основном алгоритме. Идея честно скопипизжена из примера =)
+*/
+t_point		*ft_create_p(int len)
 {
-	t_list	*prev;
-	t_list	*cur;
-	t_list	*next;
+	t_point *point;
 
-	prev = NULL;
-	cur = *alst;
-	while (cur != NULL)
+	if ((point = (t_point *)ft_memalloc(sizeof(*point))))
 	{
-		next = cur->next;
-		cur->next = prev;
-		prev = cur;
-		cur = next;
+		point->x = len % 5;
+		point->y = ((len + 5) / 5);
+		if (point->y > 0)
+			point->y -= 1;
 	}
-	*alst = prev;
+	return (point);
 }
 
-int check_tetrims(char *s)
+
+
+/*
+int		tetr_xshift(char **tetri)
 {
-	int cnt_hashtag;
-	int cnt_void;
-	int i;
+	int shift;
+
+	shift = 0;
+	while (tetri[0][shift] == '.')
+		shift++;
+	return (shift);
+}
+*/
 
 
-	cnt_hashtag = 0;
-	cnt_void = 0;
-	i = 0;
-	while(s[i])
+/*
+** Эта функция проверяет может ли наш тетрим поместиться в сетку с текущим размером
+** До конца еще не работает ДОДЕЛАТЬ
+*/
+int ft_solve_sq(t_square *square, t_point *start_point, t_list *lst)
+{
+	t_point *s = start_point;
+	s = 0;
+	char *l = lst->content;
+	size_t i = 0;
+	char **tbl = square->table;
+	while(*l != '\0')
 	{
-		if (s[i] == '#')
-			cnt_hashtag++;
-		else if (s[i] == '.')
-			cnt_void++;
-		i++;
+		if(i >= (square->size * square->size) || !l[i] || !l[i + 1] || !tbl[l[i] - '0'][l[i+1] - '0'])
+			break ;
+		tbl[l[i] - '0'][l[i+1] - '0'] = '#';
+		i+=2;
+		l++;
 	}
-	if ((cnt_void + cnt_hashtag == 16) && (cnt_hashtag == 4))
-		return(1);
-	return(0);
+	if(i == 7)
+		return (1);
+	else
+		return(0);
 }
 
-int check_connections(char *s)
-{
-	int i;
-	int cnt;
 
-	i = 0;
-	cnt = 0;
-	while(s[i])
+/* 
+t_tet *ft_create_tetrimo_struct(t_list *list)
+{
+	t_tet *out;
+	out = 0;
+	int i = 0;
+	int j = 0;
+	int flag = 0;
+	//char **temp_arr = 0;
+
+	out = (t_tet *)ft_memalloc(sizeof(out));
+	out->table = list->content;
+	printf("%s ", out->table);
+	while((out->table)[i] != 0)
 	{
-		if (s[i] == '#')
+		j= 0;
+		while((out->table)[i][j] != '\0')
 		{
-				if (s[i + 1] && s[i + 1] == '#')
-					cnt++;
-				if (s[i - 1] && s[i - 1] == '#')
-					cnt++;
-				if (s[i + 5] && s[i + 5] == '#')
-					cnt++;
-				if (s[i - 5] && s[i - 5] == '#')
-					cnt++;
+			if (((out->table)[i][j] == '#') && (flag == 0))
+			{
+				out->start->y = i;
+				out->start->x = j;
+			}
+			j++;
 		}
 		i++;
 	}
-	if (cnt == 6)
-		return(1);
-	return(0);
+	return(out);
 }
+*/
 
-void del(void *c, size_t s)
+/*
+** Создает "таблицу" в которую пытается вместить тетрим, 
+**если он не помещается, то все стирает, увеличивает размерность сетки на 1 и повторяет процедуру"
+*/
+
+int ft_fill_square(t_list **lst)
 {
-	if (!c)
-		return ;
-	free(c);
-	s = 0;
-	c = NULL;
-}
+	size_t size = 2;
+	t_square *square;
+	t_point *start_p;
+	square = ft_create_sq(size);
+	start_p = ft_create_p(0);
+	//char *l = ft_strdup((*lst)->content);
 
-t_list *save_file(char *filename)
-{
-
-	t_list *new = 0;
-	t_list *temp = 0;
-	int r = 0;
-	char *buff = ft_strnew(21);
-	ft_bzero(buff, strlen(buff));
-	//char *line = 0;
-	int fd = 0;
-	fd = open(filename, O_RDONLY);
-	while((r = read(fd, buff, 21)) >= 19)
+	while(*lst && !ft_solve_sq(square, start_p, *lst))
 	{
-		if(!check_tetrims(buff) || !check_connections(buff))
-			return(0);
-		temp = ft_lstnew(buff, 21);
-		//printf("%s ", temp->content);
-		ft_lstadd(&new, temp);
+		size++;
+		free(square); //make a special foo
+		square = ft_create_sq(size);
+		start_p->x = 0;
+		start_p->y = 0;
 	}
-	close(fd);
-	return(new);
+	ft_printtetris(square->table);
+	free(square); //make a special function to free it right
+	return (1);
 }
+/*
+** Говнофункция для теста. Выводит значения координат с решеточками для тетрима
+*/
+void mm(char *lol)
+{
+	int i = 0;
 
+	while (i < 8 && lol != '\0')
+	{
+		if (lol[i])
+			printf("%c lol\n", lol[i]);
+		i++;
+	}
+}
 
 
 int main(void)
 {
-	//printf("adsasd\n");
 	t_list *out = save_file("input");
-	//char *ll = ft_strdup(out->next->content);
-	int a = check_tetrims(out->content);
-	int b = check_tetrims(out->next->content);
-	int c = check_connections(out->content);
-	printf("%d  %d  %d  %lu %lu\n", a, b, c, ft_strlen(out->content), ft_strlen(out->next->content));
+	mm(out->content);
+	ft_fill_square(&out);
 }
