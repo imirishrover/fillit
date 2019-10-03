@@ -15,11 +15,24 @@ t_point		*ft_create_p(int len)
 		if (point->y > 0)
 			point->y -= 1;
 	}
+	printf("start point created with parameters: x = %zu, y = %zu", point->x, point->y);
 	return (point);
 }
 
-
-
+/*
+**Просто печатает текущий квадрат на экран
+*/
+void draw_sq(char **sq)
+{
+	int i = 0;
+	while (sq[i] != '\0')
+		{
+			ft_putstr(sq[i]);
+			ft_putchar('\n');
+			i++;
+		}
+	ft_putstr("End of the block\n");
+}
 /*
 int		tetr_xshift(char **tetri)
 {
@@ -32,6 +45,27 @@ int		tetr_xshift(char **tetri)
 }
 */
 
+/*
+** Функция которая смещает курсор на один символ
+*/
+int	get_next_point(t_point **point, char **square)
+{
+	if (!square)
+		return (0);
+	(*point)->x = (*point)->x + 1;
+	while (square[(*point)->y] != NULL)
+	{
+		while (square[(*point)->y][(*point)->x] != '\0')
+		{
+			if (square[(*point)->y][(*point)->x] == '.')
+				return (1);
+			(*point)->x = (*point)->x + 1;
+		}
+		(*point)->y = (*point)->y + 1;
+		(*point)->x = 0;
+	}
+	return (0);
+}
 
 /*
 ** Эта функция проверяет может ли наш тетрим поместиться в сетку с текущим размером
@@ -39,23 +73,28 @@ int		tetr_xshift(char **tetri)
 */
 int ft_solve_sq(t_square *square, t_point *start_point, t_list *lst)
 {
-	t_point *s = start_point;
-	s = 0;
 	char *l = lst->content;
 	size_t i = 0;
 	char **tbl = square->table;
-	while(*l != '\0')
+	draw_sq(square->table);
+ 	while(l[i] != '\0')
 	{
-		if(i >= (square->size * square->size) || !l[i] || !l[i + 1] || !tbl[l[i] - '0'][l[i+1] - '0'])
+		if(!l[i] || !l[i + 1] || (l[i] - '0') >= (int)square->size || (l[i + 1] - '0') >= (int)square->size)
 			break ;
-		tbl[l[i] - '0'][l[i+1] - '0'] = '#';
+		tbl[l[i + 1] - '0' + start_point->y][l[i] - '0' + start_point->x] = '#';
+		draw_sq(square->table);
 		i+=2;
-		l++;
 	}
-	if(i == 7)
+	if(i < 8)
+		return (0);
+	if (!get_next_point(&start_point, tbl))
 		return (1);
-	else
-		return(0);
+	if(i == 8)
+	{
+		lst = lst->next;
+		ft_solve_sq(square, start_point, lst);
+	}
+	return(0);
 }
 
 
@@ -112,9 +151,8 @@ int ft_fill_square(t_list **lst)
 		start_p->x = 0;
 		start_p->y = 0;
 	}
-	ft_printtetris(square->table);
-	free(square); //make a special function to free it right
-	return (1);
+	printf("kkkkkkkkk");
+	return(1);
 }
 /*
 ** Говнофункция для теста. Выводит значения координат с решеточками для тетрима
@@ -126,7 +164,7 @@ void mm(char *lol)
 	while (i < 8 && lol != '\0')
 	{
 		if (lol[i])
-			printf("%c lol\n", lol[i]);
+			printf("%c ", lol[i]);
 		i++;
 	}
 }
@@ -135,6 +173,8 @@ void mm(char *lol)
 int main(void)
 {
 	t_list *out = save_file("input");
-	mm(out->content);
+	//mm(out->content);
+	//printf("next");
+	//mm(out->next->content);
 	ft_fill_square(&out);
 }

@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "/Users/admin/Downloads/42-fillit-master"
+		},
+		{
+			"path": "/Users/admin/Downloads/fillit-master"
 		}
 	]
 }

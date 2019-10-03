@@ -66,7 +66,7 @@ int check_connections(char *s)
 		}
 		i++;
 	}
-	if (cnt == 6)
+	if (cnt >= 6)
 		return(1);
 	return(0);
 }
@@ -159,10 +159,10 @@ char *get_array(char *buff)
 				}
 				out[i] = col_cnt - hor_shift + '0';
 				i++;
-				printf("out val %d is %d\n", i - 1, out[i - 1]);
+				printf("out val(x) %d is %d\n", i - 1, out[i - 1]);
 				out[i] = row_cnt - ver_shift + '0';
 				i++;
-				printf("out val %d is %d\n", i - 1, out[i - 1]);
+				printf("out val(y) %d is %d\n", i - 1, out[i - 1]);
 			}
 			buff++;
 		}
@@ -190,7 +190,7 @@ t_list *save_file(char *filename)
 	//int *lol = (int *)ft_memalloc(sizeof(int) * 8);
 	//char letter = 'A';
 	fd = open(filename, O_RDONLY);
-	while((r = read(fd, buff, 21)) >= 20)
+	while((r = read(fd, buff, 21)) >= 19)
 	{
 		if(!check_tetrims(buff) || !check_connections(buff))
 		{	
