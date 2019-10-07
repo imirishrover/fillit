@@ -15,9 +15,7 @@ typedef struct s_point
 
 typedef struct s_tet
 {
-    char **table;
-    size_t h;
-    size_t w;
+    char *table;
     char symbol;
 }              t_tet;
 
@@ -27,12 +25,25 @@ typedef struct s_square
     size_t size;
 }               t_square;
 
-
-int check_connections(char *s);
-int check_tetrims(char *s);
-void		ft_lstrev(t_list **alst);
-t_list *save_file(char *filename);
 void del(void *c, size_t s);
-void ft_printtetris(char **tet);
+char *get_array(char *buff);
+t_list *save_file(char *filename);
+
+void print_square(char **l);
+t_square *ft_fill_square(t_list **lst);
+int ft_solve_sq(t_square *square, t_list *lst);
+void set_block(char **t, t_point *p, int i, char *tet, char s);
+int put_figure(t_list *lst, t_square *square, t_point *start_point);
+int	get_next_point(t_point **point, char **square);
+
 t_square	*ft_create_sq(size_t size);
+//static char	**make_square_str(size_t size);
+t_point		*point_new(int x, int y);
+t_point		*ft_create_p(int x, int y);
+t_tet		*tetris_new(char *pos, char value);
+
+int check_tetrims(char *s);
+int check_connections(char *s);
+void	min_max(char *str, t_point *min, t_point *max);
+
 # endif
