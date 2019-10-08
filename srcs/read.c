@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "read.h"
 void		ft_lstrev(t_list **alst)
@@ -90,14 +89,14 @@ t_list *save_file(char *filename)
 	t_tet *tetris = 0;
 
 	int r = 0;
-	
 	ft_bzero(buff, strlen(buff));
 	int fd = 0;
 	char letter = 'A';
 	fd = open(filename, O_RDONLY);
 	while((r = read(fd, buff, 21)) >= 19)
 	{
-		if(!check_tetrims(buff) || !check_connections(buff) || !(tetris = tetris_new(get_array(buff), letter++)))
+		//if(!check_tetrims(buff) || !check_connections(buff) || !(tetris = tetris_new(get_array(buff), letter++)))
+		if(!check_tetrims(buff, ft_strlen(buff)) || !(tetris = tetris_new(get_array(buff), letter++)))
 		{	
 			ft_memdel((void **)&buff);
 			//return (free_list(list));    реализовать функцию и заменить!

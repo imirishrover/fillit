@@ -1,6 +1,6 @@
 #ifndef MAIN_C
 # define MAIN_C
-# include "libft/libft.h"
+# include "libft.h"
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <fcntl.h>
@@ -42,8 +42,8 @@ t_point		*point_new(int x, int y);
 t_point		*ft_create_p(int x, int y);
 t_tet		*tetris_new(char *pos, char value);
 
-int check_tetrims(char *s);
-int check_connections(char *s);
+int check_tetrims(const char *s, int size);
+int check_connections(const char *s);
 void	min_max(char *str, t_point *min, t_point *max);
 
 # endif
