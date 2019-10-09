@@ -46,4 +46,7 @@ int check_tetrims(const char *s, int size);
 int check_connections(const char *s);
 void	min_max(char *str, t_point *min, t_point *max);
 
+void		free_tetris(t_tet *tetri);
+t_list		*free_list(t_list *list);
+
 # endif

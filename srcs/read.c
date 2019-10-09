@@ -1,5 +1,35 @@
 #include "main.h"
 #include "read.h"
+
+/*
+**Free list
+*/
+t_list		*free_list(t_list *list)
+{
+	t_tet	*tetris;
+	t_list	*next;
+
+	while (list)
+	{
+		tetris = (t_tet *)list->content;
+		next = list->next;
+		free_tetris(tetris);
+		ft_memdel((void **)&list);
+		list = next;
+	}
+	return (NULL);
+}
+
+/*
+** Frees a tetrimino structure.
+*/
+void		free_tetris(t_tet *tetri)
+{
+	free(tetri->table);
+	//free(tetri->symbol);
+	free(tetri);
+}
+
 void		ft_lstrev(t_list **alst)
 {
 	t_list	*prev;
@@ -74,9 +104,9 @@ char *get_array(char *buff)
 			buff++;
 		}
 		out[get->i] = '\0';
+	free(get);
 	return(out);
 }
-
 
 /*
 ** Читает из файла поток тетримов, если они валидны, то создает эл-ты списка, в которые пишет эти фигуры
@@ -95,18 +125,16 @@ t_list *save_file(char *filename)
 	fd = open(filename, O_RDONLY);
 	while((r = read(fd, buff, 21)) >= 19)
 	{
-		//if(!check_tetrims(buff) || !check_connections(buff) || !(tetris = tetris_new(get_array(buff), letter++)))
 		if(!check_tetrims(buff, ft_strlen(buff)) || !(tetris = tetris_new(get_array(buff), letter++)))
 		{	
 			ft_memdel((void **)&buff);
-			//return (free_list(list));    реализовать функцию и заменить!
-			return(0);
+			return (free_list(new));    //реализовать функцию и заменить!
 		}
 		buff[20] = '\0';
 		ft_lstadd(&new, ft_lstnew(tetris, sizeof(t_tet)));
 		ft_memdel((void **)&tetris);
 	}
-	ft_memdel((void **)&tetris);
+	//ft_memdel((void **)&tetris);
 	close(fd);
 	ft_lstrev(&new);
 	return(new);
