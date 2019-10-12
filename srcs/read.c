@@ -4,7 +4,7 @@
 /*
 **Free list
 */
-t_list		*free_list(t_list *list)
+t_list		*free_list(t_list *list, char **string)
 {
 	t_tet	*tetris;
 	t_list	*next;
@@ -17,6 +17,7 @@ t_list		*free_list(t_list *list)
 		ft_memdel((void **)&list);
 		list = next;
 	}
+	ft_strdel(string);
 	return (NULL);
 }
 
@@ -26,7 +27,6 @@ t_list		*free_list(t_list *list)
 void		free_tetris(t_tet *tetri)
 {
 	free(tetri->table);
-	//free(tetri->symbol);
 	free(tetri);
 }
 
@@ -88,7 +88,7 @@ char *get_array(char *buff)
 	char *out;
 
 	out = (char *)ft_memalloc(sizeof(char) * (8 + 1));
-	t_get_arr *get = set_get_arr(); //freeeeeeeee
+	t_get_arr *get = set_get_arr();
 		while((*buff) != '\0')
 		{
 			get->col_cnt++;
@@ -108,33 +108,60 @@ char *get_array(char *buff)
 	return(out);
 }
 
+int input_checker(char *filename)
+{
+	int temp;
+	int i;
+	int r;
+	int fd;
+
+	i = 0;
+	char *buff = ft_strnew(21);
+	ft_bzero(buff, ft_strlen(buff));
+	fd = open(filename, O_RDONLY);
+	while((r = read(fd, buff, 21)))
+	{
+		temp = r;
+		if(r < 19 || !check_tetrims(buff, ft_strlen(buff)))
+		{
+			ft_strdel(&buff);
+			return (0);
+		}
+		//buff[21] = '\0';		
+		i++;
+	}
+	if (temp == 21)
+		return(0);
+	close(fd);
+	return(i);
+}
 /*
 ** Читает из файла поток тетримов, если они валидны, то создает эл-ты списка, в которые пишет эти фигуры
 ** 100 процентов есть утечки. Функцию ОПТИМИЗИРОВАТЬ
 */
 t_list *save_file(char *filename)
 {
-	char *buff = ft_strnew(21);
-	t_list *new = 0;
-	t_tet *tetris = 0;
+	char *buff; 
+	int fd;
+	int r;
+	t_list *new;
+	t_tet *tetris;
 
-	int r = 0;
-	ft_bzero(buff, strlen(buff));
-	int fd = 0;
+	tetris = 0;
+	new = 0;
+	buff = ft_strnew(21);
+	r = 0;
+	ft_bzero(buff, ft_strlen(buff));
 	char letter = 'A';
 	fd = open(filename, O_RDONLY);
-	while((r = read(fd, buff, 21)) >= 19)
+	while((r = read(fd, buff, 21)))
 	{
-		if(!check_tetrims(buff, ft_strlen(buff)) || !(tetris = tetris_new(get_array(buff), letter++)))
-		{	
-			ft_memdel((void **)&buff);
-			return (free_list(new));    //реализовать функцию и заменить!
-		}
-		buff[20] = '\0';
+		if(input_checker(filename) > 25 || !input_checker(filename) || !(tetris = tetris_new(get_array(buff), letter++)))
+			return (free_list(new, &buff));
+		//buff[20] = '\0';   возможно это можно удалить
 		ft_lstadd(&new, ft_lstnew(tetris, sizeof(t_tet)));
 		ft_memdel((void **)&tetris);
 	}
-	//ft_memdel((void **)&tetris);
 	close(fd);
 	ft_lstrev(&new);
 	return(new);
