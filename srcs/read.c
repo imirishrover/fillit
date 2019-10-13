@@ -2,34 +2,8 @@
 #include "read.h"
 
 /*
-**Free list
+** Reverse nodes in the list
 */
-t_list		*free_list(t_list *list, char **string)
-{
-	t_tet	*tetris;
-	t_list	*next;
-
-	while (list)
-	{
-		tetris = (t_tet *)list->content;
-		next = list->next;
-		free_tetris(tetris);
-		ft_memdel((void **)&list);
-		list = next;
-	}
-	ft_strdel(string);
-	return (NULL);
-}
-
-/*
-** Frees a tetrimino structure.
-*/
-void		free_tetris(t_tet *tetri)
-{
-	free(tetri->table);
-	free(tetri);
-}
-
 void		ft_lstrev(t_list **alst)
 {
 	t_list	*prev;
@@ -48,14 +22,9 @@ void		ft_lstrev(t_list **alst)
 	*alst = prev;
 }
 
-void del(void *c, size_t s)
-{
-	if (!c)
-		return ;
-	free(c);
-	s = 0;
-	c = NULL;
-}
+/*
+** Aux function to manage size and coordinate values
+*/
 t_get_arr *set_get_arr(void)
 {
 	t_get_arr *out = (t_get_arr *)ft_memalloc(sizeof(out));
@@ -67,6 +36,9 @@ t_get_arr *set_get_arr(void)
 	out->i = 0;
 	return(out);
 }
+/*
+** Write coordinates of all sharp symbols in tetrim int "char *out"
+*/
 void set_sharp(t_get_arr *get, char *out)
 {
 	if(!get->fl)
@@ -81,7 +53,6 @@ void set_sharp(t_get_arr *get, char *out)
 /*
 ** создает строку(с интами не получается) в которой последовательно хранятся координаты всех решеток тетрима
 ** Причем все эти решетки смещены к левому верхнему углу, чтобы удалить лишние пустые ячейки
-** Функцию ОПТИМИЗИРОВАТЬ
 */
 char *get_array(char *buff)
 {
@@ -108,33 +79,6 @@ char *get_array(char *buff)
 	return(out);
 }
 
-int input_checker(char *filename)
-{
-	int temp;
-	int i;
-	int r;
-	int fd;
-
-	i = 0;
-	char *buff = ft_strnew(21);
-	ft_bzero(buff, ft_strlen(buff));
-	fd = open(filename, O_RDONLY);
-	while((r = read(fd, buff, 21)))
-	{
-		temp = r;
-		if(r < 19 || !check_tetrims(buff, ft_strlen(buff)))
-		{
-			ft_strdel(&buff);
-			return (0);
-		}
-		//buff[21] = '\0';		
-		i++;
-	}
-	if (temp == 21)
-		return(0);
-	close(fd);
-	return(i);
-}
 /*
 ** Читает из файла поток тетримов, если они валидны, то создает эл-ты списка, в которые пишет эти фигуры
 ** 100 процентов есть утечки. Функцию ОПТИМИЗИРОВАТЬ
@@ -156,9 +100,9 @@ t_list *save_file(char *filename)
 	fd = open(filename, O_RDONLY);
 	while((r = read(fd, buff, 21)))
 	{
-		if(input_checker(filename) > 25 || !input_checker(filename) || !(tetris = tetris_new(get_array(buff), letter++)))
-			return (free_list(new, &buff));
-		//buff[20] = '\0';   возможно это можно удалить
+		if(input_checker(filename) > 26 || !input_checker(filename) 
+		|| !(tetris = tetris_new(get_array(buff), letter++)))
+			return (free_list_and_string(new, &buff));
 		ft_lstadd(&new, ft_lstnew(tetris, sizeof(t_tet)));
 		ft_memdel((void **)&tetris);
 	}

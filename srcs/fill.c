@@ -1,5 +1,7 @@
 #include "main.h"
-
+/*
+** Checks whether it is possible to put tetrim in the table starting from the "start_point" and exactly puts if it is.
+*/
 int put_figure(t_list *lst, t_square *square, t_point *start_point)
 {
 	size_t i = 0;
@@ -26,12 +28,16 @@ int put_figure(t_list *lst, t_square *square, t_point *start_point)
 		return(1);
 return(-1);
 }
-
+/*
+** Inserts one symbol according the coordinates
+*/
 void set_block(char **t, t_point *p, int i, char *tet, char s)
 {
 	t[tet[i + 1] - '0' + p->y][tet[i] - '0' + p->x] = s;
 }
-
+/*
+** Main solving function. It iterates through the output table and tries to fill it using backtracing method
+*/
 int ft_solve_sq(t_square *square, t_list *lst)
 {
 	t_point *s_p;
@@ -51,7 +57,7 @@ int ft_solve_sq(t_square *square, t_list *lst)
 				 if (ft_solve_sq(square, lst->next))
 				 	return (1);
 				else
-					set_block(square->table, ft_create_p(s_p->x, s_p->y), 0, piece->table, '.');
+					free_table(square->table, piece->symbol);
 			 }
 			 s_p->x++;
 		 }
@@ -59,16 +65,40 @@ int ft_solve_sq(t_square *square, t_list *lst)
 	 }
 	return(0);
 }
+/*
+** Counts list nodes
+*/
+int ft_lstcnt(t_list *lst)
+{
+	int i;
+	t_list *temp;
 
+	i = 0;
+	temp = lst;
+	while(temp)
+	{
+		i++;
+		temp = temp->next;
+	}
+	return(i);
+}
+
+/*
+** Creates table. Calculates minimal size. Tries to fill the table and if not - increments table's size
+*/
 t_square *ft_fill_square(t_list **lst)
 {
-	size_t size = 2;
+	int size;
+
+	size = 0;
+	while (size * size <  ft_lstcnt(*lst) * 4)
+		size++;
 	t_square *square;
 	square = ft_create_sq(size);
 	while(!ft_solve_sq(square, *lst))
 	{
 		size++;
-		free(square); //make a special foo
+		square = free_square(square);
 		square = ft_create_sq(size);
 	}
 	return(square);

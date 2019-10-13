@@ -61,7 +61,8 @@
 			"args": [
 				"${workspaceFolder}"
 			],
-			"group": "build"
+			"group": "build",
+			"problemMatcher": []
 		}
 	]
 }

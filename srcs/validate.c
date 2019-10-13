@@ -1,34 +1,8 @@
 #include "main.h"
 
 /*
-**Проверяет что перед нами табличка валидной формы с валидными симвоалми внутри. Требуется для проверки тетрима
+** Checks whether it is valid tetrim size and form
 */
-/*int check_tetrims(char *s)
-{
-	int cnt_hashtag;
-	int cnt_void;
-	int cnt_n;
-	int i;
-
-
-	cnt_hashtag = 0;
-	cnt_void = 0;
-	cnt_n = 0;
-	i = 0;
-	while(s[i])
-	{
-		if (s[i] == '#')
-			cnt_hashtag++;
-		if (s[i] == '.')
-			cnt_void++;
-		i++;
-	}
-	printf("hashtagd: %d, dots: %d, ns: %d\n", cnt_hashtag, cnt_void, cnt_n);
-	if ((cnt_void + cnt_hashtag == 16) && (cnt_hashtag == 4) && (s[19] == '\n'))
-		return(1);
-	
-	return(0);
-}*/
 int		check_tetrims(const char *str, int size)
 {
 	int		i;
@@ -85,28 +59,32 @@ int check_connections(const char *s)
 		return(1);
 	return(0);
 }
-
 /*
-** Ищет начало и конец фигуры. Сейчас не используется. Возможно удалю
+** Read file and check are there any wrong tetrims inside. Returns tetrims amount
 */
-void	min_max(char *str, t_point *min, t_point *max)
+int input_checker(char *filename)
 {
-	size_t i;
+	int temp;
+	int i;
+	int r;
+	int fd;
 
 	i = 0;
-	while (i < 20)
+	char *buff = ft_strnew(21);
+	ft_bzero(buff, ft_strlen(buff));
+	fd = open(filename, O_RDONLY);
+	while((r = read(fd, buff, 21)))
 	{
-		if (str[i] == '#')
+		temp = r;
+		if(r < 19 || !check_tetrims(buff, ft_strlen(buff)))
 		{
-			if (i / 5 < min->y)
-				min->y = i / 5;
-			if (i / 5 > max->y)
-				max->y = i / 5;
-			if (i % 5 < min->x)
-				min->x = i % 5;
-			if (i % 5 > max->x)
-				max->x = i % 5;
-		}
+			ft_strdel(&buff);
+			return (0);
+		}	
 		i++;
 	}
+	if (temp == 21)
+		return(0);
+	close(fd);
+	return(i);
 }

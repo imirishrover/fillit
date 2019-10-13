@@ -47,6 +47,9 @@ int check_connections(const char *s);
 void	min_max(char *str, t_point *min, t_point *max);
 
 void		free_tetris(t_tet *tetri);
-t_list		*free_list(t_list *list, char **string);
+t_list		*free_list_and_string(t_list *list, char **string);
+void free_table(char **t, char c);
+int input_checker(char *filename);
+t_square *free_square(t_square *sq);
 
 # endif

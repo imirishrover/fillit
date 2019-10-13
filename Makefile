@@ -12,7 +12,7 @@ SRC = $(addprefix $(SRC_DIR),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_DIR),$(OBJ_NAME))
 INC = $(addprefix -I,$(INC_DIR))
 
-SRC_NAME = main.c fill.c init.c print.c read.c validate.c
+SRC_NAME = main.c fill.c init.c print.c read.c validate.c deinit.c
 OBJ_NAME = $(SRC_NAME:.c=.o)
 INC_NAME = read.h main.h
 
