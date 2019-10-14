@@ -51,5 +51,5 @@ t_list		*free_list_and_string(t_list *list, char **string);
 void free_table(char **t, char c);
 int input_checker(char *filename);
 t_square *free_square(t_square *sq);
-
+int	ft_memdel_c(void **ap);
 # endif

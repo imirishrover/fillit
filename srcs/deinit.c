@@ -6,7 +6,7 @@
 /*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 18:36:49 by admin             #+#    #+#             */
-/*   Updated: 2019/10/13 19:01:31 by admin            ###   ########.fr       */
+/*   Updated: 2019/10/14 17:27:06 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,15 @@ t_square *free_square(t_square *sq)
 		free(s[i++]);
 	free(s);
 	free(sq);
+	return(0);
+}
+
+int	ft_memdel_c(void **ap)
+{
+	if (ap && *ap)
+	{
+		free(*ap);
+		*ap = NULL;
+	}
 	return(0);
 }

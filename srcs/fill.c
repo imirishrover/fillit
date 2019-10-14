@@ -40,8 +40,8 @@ void set_block(char **t, t_point *p, int i, char *tet, char s)
 */
 int ft_solve_sq(t_square *square, t_list *lst)
 {
-	t_point *s_p;
-	t_tet *piece;
+	t_point 	*s_p;
+	t_tet		*piece;
 
 	if(lst == NULL)
 		return(1);
@@ -63,7 +63,7 @@ int ft_solve_sq(t_square *square, t_list *lst)
 		 }
 		s_p->y++;
 	 }
-	return(0);
+	return(ft_memdel_c((void **)&s_p));
 }
 /*
 ** Counts list nodes
