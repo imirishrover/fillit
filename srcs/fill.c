@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../includes/main.h"
 /*
 ** Checks whether it is possible to put tetrim in the table starting from the "start_point" and exactly puts if it is.
 */

@@ -6,7 +6,7 @@ CFLAGS 	= -Wall -Wextra -Werror
 SRC_DIR = ./srcs/
 INC_DIR	= ./includes/
 OBJ_DIR = ./obj/
-LIB_DIR	= ./libft/
+LFT_PATH = ./libft/
 
 SRC = $(addprefix $(SRC_DIR),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_DIR),$(OBJ_NAME))
@@ -21,26 +21,20 @@ INC_NAME = read.h main.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo
-	@make -C $(LIB_DIR)
-	@$(CC) -o $(NAME) $(OBJ) -lm -L $(LIB_DIR) -lft
-	@echo "$(OKC)FILLIT:\t\tFillit ready$(NOC)"
-	@echo "======"
+	make -C $(LFT_PATH)
+	$(CC) -o $(NAME) $(OBJ) -lm -L $(LFT_PATH) -lft
 
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	@mkdir -p $(OBJ_PATH)
-	@$(CC) $(CC_FLAGS) $(INC) -o $@ -c $<
-	@echo -n =
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	mkdir -p $(OBJ_DIR)
+	$(CC) $(CC_FLAGS) $(INC) -o $@ -c $<
 
 clean:
-	@make -C $(LIB_DIR) clean
-	@rm -rf $(OBJ_PATH)
-	@echo "$(WAC)FILLIT:\t\tRemoving OBJ path: ./obj/$(NOC)"
+	make -C $(LFT_PATH) clean
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@make -C $(LIB_DIR) fclean
-	@rm -f $(NAME)
-	@echo "$(WAC)FILLIT:\t\tRemoving fillit executable$(NOC)"
+	make -C $(LFT_PATH) fclean
+	rm -f $(NAME)
 
 re: fclean all

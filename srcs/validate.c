@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../includes/main.h"
 
 /*
 ** Checks whether it is valid tetrim size and form

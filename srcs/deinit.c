@@ -6,11 +6,11 @@
 /*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 18:36:49 by admin             #+#    #+#             */
-/*   Updated: 2019/10/14 17:27:06 by admin            ###   ########.fr       */
+/*   Updated: 2019/10/15 18:41:33 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "../includes/main.h"
 
 /*
 ** Clear table replacing all "c" symbols by "."

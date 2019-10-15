@@ -8,3 +8,4 @@ main.c
 /cmake-build-debug
 .vscode
 CMakeLists.txt
+libft.a

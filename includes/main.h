@@ -1,6 +1,6 @@
 #ifndef MAIN_C
 # define MAIN_C
-# include "libft.h"
+# include "../libft/libft.h"
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <fcntl.h>

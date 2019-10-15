@@ -1,5 +1,5 @@
-#include "main.h"
-#include "read.h"
+#include "../includes/main.h"
+#include "../includes/read.h"
 
 /*
 ** Reverse nodes in the list
