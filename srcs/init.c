@@ -6,15 +6,16 @@
 /*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 15:23:36 by admin             #+#    #+#             */
-/*   Updated: 2019/10/15 18:41:57 by admin            ###   ########.fr       */
+/*   Updated: 2019/10/14 19:40:18 by dnaruto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/main.h"
+#include "main.h"
 
 /*
 ** Создает новую структуру которая хранит в себе элемент тетриса.
 */
+
 t_tet		*tetris_new(char *pos, char value)
 {
 	t_tet	*tetris;
@@ -26,9 +27,11 @@ t_tet		*tetris_new(char *pos, char value)
 }
 
 /*
-**Создает указатель на точку с которой мы должны работать. Используется как курсор в основном алгоритме.
+**Создает указатель на точку с которой мы должны работать. 
+Используется как курсор в основном алгоритме.
 */
-t_point		*ft_create_p(int x, int y)
+
+t_point			*ft_create_p(int x, int y)
 {
 	t_point *point;
 
@@ -44,7 +47,8 @@ t_point		*ft_create_p(int x, int y)
 ** Создает табличку заполненную точками
 **
 */
-static char	**make_square_str(size_t size)
+
+static char		**make_square_str(size_t size)
 {
 	char	**square;
 	size_t	i;
@@ -70,7 +74,8 @@ static char	**make_square_str(size_t size)
 /*
 ** Инициализирует нашу главную табличку, куда все и вмещается
 */
-t_square	*ft_create_sq(size_t size)
+
+t_square		*ft_create_sq(size_t size)
 {
 	t_square *square;
 

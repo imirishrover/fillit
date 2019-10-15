@@ -6,38 +6,39 @@
 /*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 18:36:49 by admin             #+#    #+#             */
-/*   Updated: 2019/10/15 18:41:33 by admin            ###   ########.fr       */
+/*   Updated: 2019/10/14 19:50:08 by dnaruto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/main.h"
+#include "main.h"
 
 /*
 ** Clear table replacing all "c" symbols by "."
 */
-void free_table(char **t, char c)
+
+void		free_table(char **t, char c)
 {
 	int i;
 	int k;
 
 	i = 0;
-	while(t[i] != 0)
+	while (t[i] != 0)
 	{
 		k = 0;
-		while(t[i][k] != 0)
+		while (t[i][k] != 0)
 		{
 			if (t[i][k] == c)
 				t[i][k] = '.';
 			k++;
 		}
-	i++;
+		i++;
 	}
 }
-
 
 /*
 **Free list
 */
+
 t_list		*free_list_and_string(t_list *list, char **string)
 {
 	t_tet	*tetris;
@@ -58,31 +59,32 @@ t_list		*free_list_and_string(t_list *list, char **string)
 /*
 ** Frees a tetrimino structure.
 */
+
 void		free_tetris(t_tet *tetri)
 {
 	free(tetri->table);
 	free(tetri);
 }
 
-t_square *free_square(t_square *sq)
+t_square		*free_square(t_square *sq)
 {
 	int i;
 
 	i = 0;
 	char **s = (char **)sq->table;
-	while(s[i] != '\0')
+	while (s[i] != '\0')
 		free(s[i++]);
 	free(s);
 	free(sq);
-	return(0);
+	return (0);
 }
 
-int	ft_memdel_c(void **ap)
+int				ft_memdel_c(void **ap)
 {
 	if (ap && *ap)
 	{
 		free(*ap);
 		*ap = NULL;
 	}
-	return(0);
+	return (0);
 }

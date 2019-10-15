@@ -1,9 +1,22 @@
-#include "../includes/main.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dnaruto <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 19:45:24 by dnaruto           #+#    #+#             */
+/*   Updated: 2019/10/14 19:58:45 by dnaruto          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "main.h"
 
 /*
 ** Checks whether it is valid tetrim size and form
 */
-int		check_tetrims(const char *str, int size)
+
+int			check_tetrims(const char *str, int size)
 {
 	int		i;
 	int		hex;
@@ -29,54 +42,56 @@ int		check_tetrims(const char *str, int size)
 	return (1);
 }
 
-
 /*
 ** Проверяет правильность поступившего на вход тетрима
 */
-int check_connections(const char *s)
+
+int			check_connections(const char *s)
 {
-	int i;
-	int cnt;
+	int		i;
+	int		cnt;
 
 	i = 0;
 	cnt = 0;
-	while(s[i])
+	while (s[i])
 	{
 		if (s[i] == '#')
 		{
-				if (s[i + 1] && s[i + 1] == '#')
-					cnt++;
-				if (s[i - 1] && s[i - 1] == '#')
-					cnt++;
-				if (s[i + 5] && s[i + 5] == '#')
-					cnt++;
-				if (s[i - 5] && s[i - 5] == '#')
-					cnt++;
+			if (s[i + 1] && s[i + 1] == '#')
+				cnt++;
+			if (s[i - 1] && s[i - 1] == '#')
+				cnt++;
+			if (s[i + 5] && s[i + 5] == '#')
+				cnt++;
+			if (s[i - 5] && s[i - 5] == '#')
+				cnt++;
 		}
 		i++;
 	}
 	if (cnt >= 6)
-		return(1);
-	return(0);
+		return (1);
+	return (0);
 }
+
 /*
 ** Read file and check are there any wrong tetrims inside. Returns tetrims amount
 */
-int input_checker(char *filename)
+
+int			input_checker(char *filename)
 {
-	int temp;
-	int i;
-	int r;
-	int fd;
+	int		temp;
+	int		i;
+	int		r;
+	int		fd;
 
 	i = 0;
 	char *buff = ft_strnew(21);
 	ft_bzero(buff, ft_strlen(buff));
 	fd = open(filename, O_RDONLY);
-	while((r = read(fd, buff, 21)))
+	while ((r = read(fd, buff, 21)))
 	{
 		temp = r;
-		if(r < 19 || !check_tetrims(buff, ft_strlen(buff)))
+		if (r < 19 || !check_tetrims(buff, ft_strlen(buff)))
 		{
 			ft_strdel(&buff);
 			return (0);
@@ -84,7 +99,7 @@ int input_checker(char *filename)
 		i++;
 	}
 	if (temp == 21)
-		return(0);
+		return (0);
 	close(fd);
-	return(i);
+	return (i);
 }
