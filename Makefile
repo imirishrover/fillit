@@ -12,7 +12,7 @@ SRC = $(addprefix $(SRC_DIR),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_DIR),$(OBJ_NAME))
 INC = $(addprefix -I,$(INC_DIR))
 
-SRC_NAME = main.c fill.c init.c print.c read.c validate.c deinit.c
+SRC_NAME = main.c fill.c init.c read.c validate.c deinit.c
 OBJ_NAME = $(SRC_NAME:.c=.o)
 INC_NAME = read.h main.h
 
@@ -21,27 +21,26 @@ INC_NAME = read.h main.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
+	@echo
 	@make -C $(LIB_DIR)
-	@$(CC) $(OBJ) -L $(LIB_DIR) -l ft -o $(NAME)
-	@echo "FILLIT READY"
+	@$(CC) -o $(NAME) $(OBJ) -lm -L $(LIB_DIR) -lft
+	@echo "$(OKC)FILLIT:\t\tFillit ready$(NOC)"
+	@echo "======"
 
-$(OBJ_DIR)%.o:$(SRC_DIR)%.c
-	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(INC) -I$(LIB_DIR) -o $@ -c $<
-	@echo "OBJECT FILES HAS BEEN CREATED"
+
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+	@mkdir -p $(OBJ_PATH)
+	@$(CC) $(CC_FLAGS) $(INC) -o $@ -c $<
+	@echo -n =
 
 clean:
 	@make -C $(LIB_DIR) clean
-	@rm -rf $(OBJ_DIR)
-	@echo "CLEAN OK"
+	@rm -rf $(OBJ_PATH)
+	@echo "$(WAC)FILLIT:\t\tRemoving OBJ path: ./obj/$(NOC)"
+
 fclean: clean
 	@make -C $(LIB_DIR) fclean
-	@rm -rf $(NAME)
-	@echo "FCLEAN OK"
-re:
-	@$(MAKE) fclean --no-print-directory
-	@$(MAKE) all --no-print-directory
+	@rm -f $(NAME)
+	@echo "$(WAC)FILLIT:\t\tRemoving fillit executable$(NOC)"
 
-relib:
-	@$(MAKE) -C $(LIB_DIR) re --no-print-directory
-	@$(MAKE) re --no-print-directory
+re: fclean all
