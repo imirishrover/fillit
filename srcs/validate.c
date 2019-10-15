@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnaruto <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 19:45:24 by dnaruto           #+#    #+#             */
-/*   Updated: 2019/10/14 19:58:45 by dnaruto          ###   ########.fr       */
+/*   Updated: 2019/10/15 21:31:13 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int			check_connections(const char *s)
 }
 
 /*
-** Read file and check are there any wrong tetrims inside. Returns tetrims amount
+** Read file and check are there any wrong tetrims inside.
+** Returns tetrims amount
 */
 
 int			input_checker(char *filename)
@@ -95,7 +96,7 @@ int			input_checker(char *filename)
 		{
 			ft_strdel(&buff);
 			return (0);
-		}	
+		}
 		i++;
 	}
 	if (temp == 21)

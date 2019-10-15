@@ -6,7 +6,7 @@
 /*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 15:23:36 by admin             #+#    #+#             */
-/*   Updated: 2019/10/14 19:40:18 by dnaruto          ###   ########.fr       */
+/*   Updated: 2019/10/15 21:25:12 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_tet		*tetris_new(char *pos, char value)
 }
 
 /*
-**Создает указатель на точку с которой мы должны работать. 
-Используется как курсор в основном алгоритме.
+**Создает указатель на точку с которой мы должны работать.
+**Используется как курсор в основном алгоритме.
 */
 
 t_point			*ft_create_p(int x, int y)
@@ -45,7 +45,6 @@ t_point			*ft_create_p(int x, int y)
 
 /*
 ** Создает табличку заполненную точками
-**
 */
 
 static char		**make_square_str(size_t size)
@@ -89,4 +88,14 @@ t_square		*ft_create_sq(size_t size)
 		square->size = size;
 	}
 	return (square);
+}
+
+t_read *new_read(void)
+{
+	t_read	*re;
+	re = ft_memalloc(sizeof(t_read));
+	re->r = 0;
+	re->l = 'A';
+	re->fd = 0;
+	return(re);
 }

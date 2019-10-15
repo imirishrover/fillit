@@ -25,6 +25,13 @@ typedef struct s_square
     size_t size;
 }               t_square;
 
+typedef struct s_read
+{
+	int		fd;
+	int		r;
+    char    l;
+}               t_read;
+
 void del(void *c, size_t s);
 char *get_array(char *buff);
 t_list *save_file(char *filename);
@@ -52,4 +59,5 @@ void free_table(char **t, char c);
 int input_checker(char *filename);
 t_square *free_square(t_square *sq);
 int	ft_memdel_c(void **ap);
+t_read *new_read(void);
 # endif

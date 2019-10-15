@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnaruto <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 19:56:03 by dnaruto           #+#    #+#             */
-/*   Updated: 2019/10/14 19:56:53 by dnaruto          ###   ########.fr       */
+/*   Updated: 2019/10/15 21:29:23 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ void	print_square(char **l)
 int		main(int argc, char **argv)
 {
 	t_list *out;
+	t_square *k;
 
 	out = 0;
+	k = 0;
 	if (argc != 2)
 	{
 		ft_putendl("usage: ./fillit [input_file]");
@@ -43,6 +45,6 @@ int		main(int argc, char **argv)
 		ft_putendl("error");
 		return (0);
 	}
-	t_square *k = (t_square *)ft_fill_square(&out);
+	k = (t_square *)ft_fill_square(&out);
 	print_square(k->table);
 }

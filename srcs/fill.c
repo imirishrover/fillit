@@ -3,46 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   fill.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnaruto <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 19:52:53 by dnaruto           #+#    #+#             */
-/*   Updated: 2019/10/14 20:02:07 by dnaruto          ###   ########.fr       */
+/*   Updated: 2019/10/15 21:30:47 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 /*
-** Checks whether it is possible to put tetrim in the table starting 
+** Checks whether it is possible to put tetrim in the table starting
 ** from the "start_point" and exactly puts if it is.
 */
 
-int			put_figure(t_list *lst, t_square *square, t_point *start_point)
+int			put_figure(t_list *ls, t_square *sq, t_point *st)
 {
-	size_t	i = 0;
-	char	**tbl = square->table;
-	t_tet	*content = (t_tet*)lst->content;
-	char	*l = content->table;
+	size_t	i;
+	char	**tbl;
+	t_tet	*co;
+	char	*l;
+
+	co = (t_tet*)ls->content;
+	i = 0;
+	tbl = sq->table;
+	l = co->table;
 	while (l[i] != '\0')
 	{
-		if (!l[i] || !l[i + 1] || 
-		(int)(l[i] - '0' + start_point->x) >= (int)square->size ||
-		(int)(l[i + 1] - '0' + start_point->y) >= (int)square->size|| 
-		tbl[l[i + 1] - '0' + start_point->y][l[i] - '0' + start_point->x] != '.')
+		if (!l[i] || !l[i + 1] || (int)(l[i] - '0' + st->x) >= (int)sq->size ||
+		(int)(l[i + 1] - '0' + st->y) >= (int)sq->size||
+		tbl[l[i + 1] - '0' + st->y][l[i] - '0' + st->x] != '.')
 					return (0);
 		i += 2;
 	}
 	i = 0;
 	while (l[i] != '\0')
 	{
-		set_block(tbl, start_point, i, l, content->symbol);
+		set_block(tbl, st, i, l, co->symbol);
 		i += 2;
 	}
-	if (i < 8)
-		return (0);
-	if (i == 8)
-		return (1);
-	return (-1);
+		return (i == 8 ? 1 : 0);
 }
 
 /*
@@ -55,7 +55,9 @@ void		set_block(char **t, t_point *p, int i, char *tet, char s)
 }
 
 /*
-** Main solving function. It iterates through the output table and tries to fill it using backtracing method
+** Main solving function.
+** It iterates through the output table
+** and tries to fill it using backtracing method
 */
 
 int			ft_solve_sq(t_square *square, t_list *lst)
@@ -67,7 +69,7 @@ int			ft_solve_sq(t_square *square, t_list *lst)
 		return (1);
 	piece = (t_tet *)lst->content;
 	s_p = ft_create_p(0, 0);
- 	while (s_p->y < square->size) 
+ 	while (s_p->y < square->size)
 	{
 		s_p->x = 0;
 		while (s_p->x < square->size)
@@ -106,12 +108,13 @@ int			ft_lstcnt(t_list *lst)
 }
 
 /*
-** Creates table. Calculates minimal size. Tries to fill the table and if not - increments table's size
+** Creates table. Calculates minimal size.
+** Tries to fill the table and if not - increments table's size
 */
 
 t_square	*ft_fill_square(t_list **lst)
 {
-	int size;
+	int		size;
 
 	size = 0;
 	while (size * size <  ft_lstcnt(*lst) * 4)
