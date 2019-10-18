@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   read.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsance <nsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 19:40:28 by dnaruto           #+#    #+#             */
-/*   Updated: 2019/10/18 07:23:34 by admin            ###   ########.fr       */
+/*   Updated: 2019/10/18 21:36:43 by nsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-#include "read.h"
 
 /*
 ** Reverse nodes in the list
@@ -41,7 +40,9 @@ void			ft_lstrev(t_list **alst)
 
 t_get_arr		*set_get_arr(void)
 {
-	t_get_arr *out = (t_get_arr *)ft_memalloc(sizeof(out));
+	t_get_arr *out;
+
+	out = (t_get_arr *)ft_memalloc(sizeof(out));
 	out->col_cnt = 0;
 	out->row_cnt = 0;
 	out->hor_shift = 0;
@@ -74,8 +75,8 @@ void			set_sharp(t_get_arr *get, char *out)
 
 char			*get_array(char *buff)
 {
-	char	*out;
-	t_get_arr *get;
+	char		*out;
+	t_get_arr	*get;
 
 	out = (char *)ft_memalloc(sizeof(char) * (8 + 1));
 	get = set_get_arr();
@@ -95,6 +96,7 @@ char			*get_array(char *buff)
 	}
 	out[get->i] = '\0';
 	free(get);
+	ft_putendl("get_array");
 	return (out);
 }
 
@@ -109,23 +111,34 @@ t_list			*save_file(char *filename)
 	t_list	*new;
 	t_tet	*tetris;
 	t_read	*re;
+	t_list	*temp;
 
 	re = new_read();
+	temp = 0;
 	tetris = 0;
 	new = 0;
 	buff = ft_strnew(21);
 	re->fd = open(filename, O_RDONLY);
 	ft_bzero(buff, ft_strlen(buff));
+	ft_putendl("here");
 	while ((re->r = read(re->fd, buff, 21)))
 	{
-		if(input_checker(filename) > 26 || !input_checker(filename)
+		ft_putendl("there");
+		if (input_checker(filename) > 26 || !input_checker(filename)
 		|| !(tetris = tetris_new(get_array(buff), re->l++)))
-			return (free_list_and_string(new, &buff));
-		ft_lstadd(&new, ft_lstnew(tetris, sizeof(t_tet)));
+		{
+			ft_putendl("mmmmm");
+			return (free_list_and_string(new, &buff, re));
+		}
+		if (tetris)
+			ft_putendl("afterwhile");
+		temp = ft_lstnew(tetris, sizeof(t_tet));
+		ft_lstadd(&new, temp);
 		ft_memdel((void **)&tetris);
+
 	}
 	close(re->fd);
 	ft_lstrev(&new);
-	free(re);
+	free_list_and_string(0, &buff, re);
 	return (new);
 }

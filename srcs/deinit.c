@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deinit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsance <nsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 18:36:49 by admin             #+#    #+#             */
-/*   Updated: 2019/10/14 19:50:08 by dnaruto          ###   ########.fr       */
+/*   Updated: 2019/10/18 20:59:17 by nsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Clear table replacing all "c" symbols by "."
 */
 
-void		free_table(char **t, char c)
+void			free_table(char **t, char c)
 {
 	int i;
 	int k;
@@ -39,7 +39,7 @@ void		free_table(char **t, char c)
 **Free list
 */
 
-t_list		*free_list_and_string(t_list *list, char **string)
+t_list			*free_list_and_string(t_list *list, char **string, t_read *r)
 {
 	t_tet	*tetris;
 	t_list	*next;
@@ -52,7 +52,11 @@ t_list		*free_list_and_string(t_list *list, char **string)
 		ft_memdel((void **)&list);
 		list = next;
 	}
-	ft_strdel(string);
+	if (string && r)
+	{
+		ft_strdel(string);
+		free(r);
+	}
 	return (NULL);
 }
 
@@ -60,7 +64,7 @@ t_list		*free_list_and_string(t_list *list, char **string)
 ** Frees a tetrimino structure.
 */
 
-void		free_tetris(t_tet *tetri)
+void			free_tetris(t_tet *tetri)
 {
 	free(tetri->table);
 	free(tetri);
@@ -68,10 +72,11 @@ void		free_tetris(t_tet *tetri)
 
 t_square		*free_square(t_square *sq)
 {
-	int i;
+	int		i;
+	char	**s;
 
+	s = (char **)sq->table;
 	i = 0;
-	char **s = (char **)sq->table;
 	while (s[i] != '\0')
 		free(s[i++]);
 	free(s);
@@ -86,5 +91,5 @@ int				ft_memdel_c(void **ap)
 		free(*ap);
 		*ap = NULL;
 	}
-	return (0);
+	return (1);
 }

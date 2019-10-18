@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsance <nsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 19:45:24 by dnaruto           #+#    #+#             */
-/*   Updated: 2019/10/15 21:31:13 by admin            ###   ########.fr       */
+/*   Updated: 2019/10/18 21:28:15 by nsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,13 @@ int			input_checker(char *filename)
 	int		i;
 	int		r;
 	int		fd;
+	char	*buff;
 
 	i = 0;
-	char *buff = ft_strnew(21);
+	buff = ft_strnew(21);
 	ft_bzero(buff, ft_strlen(buff));
 	fd = open(filename, O_RDONLY);
+	ft_putendl("inputchecker");
 	while ((r = read(fd, buff, 21)))
 	{
 		temp = r;
@@ -102,5 +104,6 @@ int			input_checker(char *filename)
 	if (temp == 21)
 		return (0);
 	close(fd);
+	ft_strdel(&buff);
 	return (i);
 }

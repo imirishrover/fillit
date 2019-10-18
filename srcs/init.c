@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsance <nsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 15:23:36 by admin             #+#    #+#             */
-/*   Updated: 2019/10/15 21:25:12 by admin            ###   ########.fr       */
+/*   Updated: 2019/10/18 21:30:03 by nsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@
 ** Создает новую структуру которая хранит в себе элемент тетриса.
 */
 
-t_tet		*tetris_new(char *pos, char value)
+t_tet			*tetris_new(char *pos, char value)
 {
 	t_tet	*tetris;
 
 	tetris = ft_memalloc(sizeof(t_tet));
 	tetris->table = pos;
 	tetris->symbol = value;
+	if(tetris)
+		ft_putendl("tetrisnew");
 	return (tetris);
 }
 
@@ -33,7 +35,7 @@ t_tet		*tetris_new(char *pos, char value)
 
 t_point			*ft_create_p(int x, int y)
 {
-	t_point *point;
+	t_point	*point;
 
 	if ((point = (t_point *)ft_memalloc(sizeof(*point))))
 	{
@@ -90,12 +92,18 @@ t_square		*ft_create_sq(size_t size)
 	return (square);
 }
 
-t_read *new_read(void)
+t_read			*new_read(void)
 {
 	t_read	*re;
-	re = ft_memalloc(sizeof(t_read));
-	re->r = 0;
-	re->l = 'A';
-	re->fd = 0;
-	return(re);
+
+	re = 0;
+	if ((re = (t_read *)ft_memalloc(sizeof(*re))))
+	{
+		re->r = 0;
+		re->l = 'A';
+		re->fd = 0;
+		return (re);
+	}
+	else
+		return (0);
 }

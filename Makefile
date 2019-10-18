@@ -1,7 +1,7 @@
 NAME	= fillit
 
 CC		= gcc
-CFLAGS 	= -Wall -Wextra -Werror
+CFLAGS 	= -Wall -Wextra -Werror -g
 
 SRC_DIR = ./srcs/
 INC_DIR	= ./includes/
@@ -22,12 +22,12 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	make -C $(LFT_PATH)
-	$(CC) -o $(NAME) $(OBJ) -lm -L $(LFT_PATH) -lft
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -lm -L $(LFT_PATH) -lft
 
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	mkdir -p $(OBJ_DIR)
-	$(CC) $(CC_FLAGS) $(INC) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
 	make -C $(LFT_PATH) clean

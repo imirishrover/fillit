@@ -72,7 +72,7 @@ OBJECT = $(SOURCES:.c=.o)
 all: $(NAME)
 
 %.o : %.c libft.h
-	$(CC) -c $(FLAGS) $< -I libft.h
+	$(CC) -c $(FLAGS) -I libft.h $< -o $@
 
 $(NAME): $(OBJECT)
 	@ar rc $@ $^
