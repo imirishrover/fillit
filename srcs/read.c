@@ -6,7 +6,7 @@
 /*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 19:40:28 by dnaruto           #+#    #+#             */
-/*   Updated: 2019/10/15 21:27:09 by admin            ###   ########.fr       */
+/*   Updated: 2019/10/18 07:23:34 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,10 @@ void			set_sharp(t_get_arr *get, char *out)
 char			*get_array(char *buff)
 {
 	char	*out;
+	t_get_arr *get;
 
 	out = (char *)ft_memalloc(sizeof(char) * (8 + 1));
-	t_get_arr *get = set_get_arr();
+	get = set_get_arr();
 	while ((*buff) != '\0')
 	{
 		get->col_cnt++;
