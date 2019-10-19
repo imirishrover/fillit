@@ -6,7 +6,7 @@
 /*   By: nsance <nsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 15:23:36 by admin             #+#    #+#             */
-/*   Updated: 2019/10/18 21:30:03 by nsance           ###   ########.fr       */
+/*   Updated: 2019/10/18 22:21:22 by nsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@ t_tet			*tetris_new(char *pos, char value)
 	t_tet	*tetris;
 
 	tetris = ft_memalloc(sizeof(t_tet));
-	tetris->table = pos;
-	tetris->symbol = value;
-	if(tetris)
-		ft_putendl("tetrisnew");
-	return (tetris);
+	if (tetris)
+	{
+		tetris->table = pos;
+		tetris->symbol = value;
+		return (tetris);
+	}
+	else
+		return (0);
 }
 
 /*
@@ -41,8 +44,9 @@ t_point			*ft_create_p(int x, int y)
 	{
 		point->x = x;
 		point->y = y;
+		return (point);
 	}
-	return (point);
+	return (0);
 }
 
 /*
@@ -54,6 +58,7 @@ static char		**make_square_str(size_t size)
 	char	**square;
 	size_t	i;
 
+	square = 0;
 	if ((square = (char **)ft_memalloc((sizeof(*square) * (size + 1)))))
 	{
 		i = 0;
@@ -80,6 +85,7 @@ t_square		*ft_create_sq(size_t size)
 {
 	t_square *square;
 
+	square = 0;
 	if ((square = (t_square *)ft_memalloc(sizeof(*square))))
 	{
 		if (!(square->table = make_square_str(size)))

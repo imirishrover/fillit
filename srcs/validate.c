@@ -6,7 +6,7 @@
 /*   By: nsance <nsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 19:45:24 by dnaruto           #+#    #+#             */
-/*   Updated: 2019/10/18 21:28:15 by nsance           ###   ########.fr       */
+/*   Updated: 2019/10/18 21:52:44 by nsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int			input_checker(char *filename)
 	buff = ft_strnew(21);
 	ft_bzero(buff, ft_strlen(buff));
 	fd = open(filename, O_RDONLY);
-	ft_putendl("inputchecker");
 	while ((r = read(fd, buff, 21)))
 	{
 		temp = r;
@@ -106,4 +105,15 @@ int			input_checker(char *filename)
 	close(fd);
 	ft_strdel(&buff);
 	return (i);
+}
+
+int			could_put(char *filename, t_tet **tetris, char *buff, char symbol)
+{
+	if (input_checker(filename) > 26 || !input_checker(filename)
+		|| !(*tetris = tetris_new(get_array(buff), symbol)))
+		return (0);
+	else
+	{
+		return (1);
+	}
 }

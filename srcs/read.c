@@ -6,7 +6,7 @@
 /*   By: nsance <nsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 19:40:28 by dnaruto           #+#    #+#             */
-/*   Updated: 2019/10/18 21:36:43 by nsance           ###   ########.fr       */
+/*   Updated: 2019/10/18 22:21:28 by nsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,16 @@ t_get_arr		*set_get_arr(void)
 {
 	t_get_arr *out;
 
-	out = (t_get_arr *)ft_memalloc(sizeof(out));
-	out->col_cnt = 0;
-	out->row_cnt = 0;
-	out->hor_shift = 0;
-	out->ver_shift = 0;
-	out->fl = 0;
-	out->i = 0;
+	out = 0;
+	if ((out = (t_get_arr *)ft_memalloc(sizeof(out))))
+	{
+		out->col_cnt = 0;
+		out->row_cnt = 0;
+		out->hor_shift = 0;
+		out->ver_shift = 0;
+		out->fl = 0;
+		out->i = 0;
+	}
 	return (out);
 }
 
@@ -78,7 +81,8 @@ char			*get_array(char *buff)
 	char		*out;
 	t_get_arr	*get;
 
-	out = (char *)ft_memalloc(sizeof(char) * (8 + 1));
+	if (!(out = (char *)ft_memalloc(sizeof(char) * (8 + 1))))
+		return (0);
 	get = set_get_arr();
 	while ((*buff) != '\0')
 	{
@@ -96,7 +100,6 @@ char			*get_array(char *buff)
 	}
 	out[get->i] = '\0';
 	free(get);
-	ft_putendl("get_array");
 	return (out);
 }
 
@@ -120,22 +123,13 @@ t_list			*save_file(char *filename)
 	buff = ft_strnew(21);
 	re->fd = open(filename, O_RDONLY);
 	ft_bzero(buff, ft_strlen(buff));
-	ft_putendl("here");
 	while ((re->r = read(re->fd, buff, 21)))
 	{
-		ft_putendl("there");
-		if (input_checker(filename) > 26 || !input_checker(filename)
-		|| !(tetris = tetris_new(get_array(buff), re->l++)))
-		{
-			ft_putendl("mmmmm");
+		if (!could_put(filename, &tetris, buff, re->l++))
 			return (free_list_and_string(new, &buff, re));
-		}
-		if (tetris)
-			ft_putendl("afterwhile");
 		temp = ft_lstnew(tetris, sizeof(t_tet));
 		ft_lstadd(&new, temp);
 		ft_memdel((void **)&tetris);
-
 	}
 	close(re->fd);
 	ft_lstrev(&new);

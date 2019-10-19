@@ -6,20 +6,24 @@
 /*   By: nsance <nsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:15:29 by nsance            #+#    #+#             */
-/*   Updated: 2019/10/18 21:20:29 by nsance           ###   ########.fr       */
+/*   Updated: 2019/10/19 16:43:10 by nsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
-
-# include "../libft/libft.h"
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <fcntl.h>
-# include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+typedef struct	s_list
+{
+	void			*content;
+	size_t			content_size;
+	struct s_list	*next;
+}				t_list;
 
 typedef struct	s_point
 {
@@ -75,4 +79,22 @@ t_square		*free_square(t_square *sq);
 int				input_checker(char *filename);
 int				ft_memdel_c(void **ap);
 t_read			*new_read(void);
+int				could_put(char *filename,
+t_tet **tetris, char *buff, char symbol);
+
+char			*ft_strnew(size_t size);
+void			*ft_memalloc(size_t size);
+void			ft_memdel(void **ap);
+t_list			*ft_lstnew(void const *content, size_t content_size);
+void			ft_putchar(char c);
+void			ft_putendl(char const *str);
+void			ft_putstr(char const *str);
+void			ft_strdel(char **as);
+void			*ft_memset(void *b, int c, size_t len);
+void			ft_bzero(void *s, size_t n);
+void			ft_lstadd(t_list **alst, t_list *new);
+size_t			ft_strlen(const char *str);
+void			*ft_memcpy(void *to, const void *from, size_t numbytes);
+void			ft_putchar_fd(char c, int fd);
+void			ft_putstr_fd(char const *c, int fd);
 #endif
